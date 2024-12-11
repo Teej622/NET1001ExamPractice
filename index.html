@@ -139,34 +139,37 @@
     ];
 
     const questionElement = document.getElementById("question");
-    const showAnswerButton = document.getElementById("show-answer");
-    const nextButton = document.getElementById("next");
+const showAnswerButton = document.getElementById("show-answer");
+const nextButton = document.getElementById("next");
 
-    let currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick the first question
-    let showAnswer = false;
+let currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick the first question
+let showAnswer = false;
 
-    function loadNewQuestion() {
-        currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick a new question
+function loadNewQuestion() {
+    currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick a new question
+    questionElement.textContent = flashcards[currentIndex].question;
+    showAnswer = false;
+    showAnswerButton.textContent = "Show Answer"; // Reset the button text when loading a new question
+}
+
+showAnswerButton.addEventListener("click", () => {
+    if (!showAnswer) {
+        questionElement.textContent = flashcards[currentIndex].answer;
+        showAnswerButton.textContent = "Show Question"; // Change the button text to "Show Question"
+        showAnswer = true;
+    } else {
         questionElement.textContent = flashcards[currentIndex].question;
+        showAnswerButton.textContent = "Show Answer"; // Change the button text back to "Show Answer"
         showAnswer = false;
     }
+});
 
-    showAnswerButton.addEventListener("click", () => {
-        if (!showAnswer) {
-            questionElement.textContent = flashcards[currentIndex].answer;
-            showAnswer = true;
-        } else {
-            questionElement.textContent = flashcards[currentIndex].question;
-            showAnswer = false;
-        }
-    });
-
-    nextButton.addEventListener("click", () => {
-        loadNewQuestion();
-    });
-
-    // Initialize with a random question
+nextButton.addEventListener("click", () => {
     loadNewQuestion();
+});
+
+// Initialize with a random question
+loadNewQuestion();
 </script>
 
 </body>
