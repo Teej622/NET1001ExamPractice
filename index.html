@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L7YFG4K17Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-L7YFG4K17Z');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L7YFG4K17Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-L7YFG4K17Z');
+    </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,7 +82,6 @@
     </style>
 </head>
 
-
 <body>
     <!-- Home Page -->
     <div class="home-page visible" id="home">
@@ -100,11 +97,12 @@
         </div>
         <button class="button" id="show-answer">Show Answer</button>
         <button class="button" id="next">Next Question</button>
+        <button class="button" id="remove-card">Remove Card</button>
     </div>
 
     <script>
         const flashcards = [
-        { question: "What are the basic logic gates?", answer: "AND, OR, NOT, NAND, NOR, XOR, XNOR, Buffer." },
+      { question: "What are the basic logic gates?", answer: "AND, OR, Buffer, NOT, NAND, NOR, XOR, XNOR." },
         { question: "What is the purpose of a NOT gate?", answer: "It inverts the input signal." },
         { question: "What is the role of a NAND gate?", answer: "Outputs true unless all inputs are true." },
         { question: "Why is hexadecimal used in computing?", answer: "For concise representation of binary data." },
@@ -165,10 +163,6 @@
         { question: "What is the GPU responsible for?", answer: "The GPU (Graphics Processing Unit) handles rendering graphics and video, improving performance for tasks like gaming and video editing." },
         { question: "What does the BIOS do?", answer: "The BIOS (Basic Input/Output System) is firmware that initializes hardware components during boot and provides low-level control over the computer." },
         { question: "What is an optical drive?", answer: "An optical drive reads and writes data on optical discs, such as CDs, DVDs, and Blu-rays." },
-        { question: "What is a process in computing?", answer: "A process is an instance of a program in execution, including its code, data, and state." },
-        { question: "What is a thread?", answer: "A thread is the smallest unit of execution within a process, sharing the same memory space." },
-        { question: "How do threads differ from processes?", answer: "Threads share the same memory and resources of a process, while processes are independent with separate memory spaces." },
-        { question: "What is multithreading?", answer: "Multithreading is the ability of a CPU to execute multiple threads within a single process simultaneously." },
         ];
 
         const homePage = document.getElementById("home");
@@ -176,11 +170,21 @@
         const questionElement = document.getElementById("question");
         const showAnswerButton = document.getElementById("show-answer");
         const nextButton = document.getElementById("next");
+        const removeCardButton = document.getElementById("remove-card");
 
         let currentIndex = Math.floor(Math.random() * flashcards.length);
         let showAnswer = false;
 
         function loadNewQuestion() {
+            // If there are no flashcards left, show a message and return
+            if (flashcards.length === 0) {
+                questionElement.textContent = "No more flashcards left!";
+                showAnswerButton.style.display = 'none';
+                nextButton.style.display = 'none';
+                removeCardButton.style.display = 'none';
+                return;
+            }
+            
             currentIndex = Math.floor(Math.random() * flashcards.length);
             questionElement.textContent = flashcards[currentIndex].question;
             showAnswer = false;
@@ -206,6 +210,12 @@
         });
 
         nextButton.addEventListener("click", loadNewQuestion);
+
+        // Remove the current flashcard from the list
+        removeCardButton.addEventListener("click", () => {
+            flashcards.splice(currentIndex, 1);
+            loadNewQuestion();
+        });
 
         loadNewQuestion();
     </script>
