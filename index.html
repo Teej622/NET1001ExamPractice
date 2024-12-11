@@ -6,7 +6,7 @@
     <title>Flashcards Quiz</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
@@ -14,26 +14,51 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-image: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
         }
         .card {
             background: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 450px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+        .card p {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: black;
         }
         .button {
             margin-top: 20px;
-            padding: 10px 15px;
+            padding: 12px 20px;
             background-color: #007BFF;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .button:hover {
             background-color: #0056b3;
+            transform: scale(1.1);
+        }
+        .button:active {
+            background-color: #004494;
+            transform: scale(1);
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -49,19 +74,16 @@
 
 <script>
     const flashcards = [
-        { question: "What are the basic logic gates?", answer: "Buffer, NOT, NAND, NOR, XOR, XNOR." },
+       { question: "What are the basic logic gates?", answer: "Buffer, NOT, NAND, NOR, XOR, XNOR." },
         { question: "What is the purpose of a NOT gate?", answer: "It inverts the input signal." },
         { question: "What is the role of a NAND gate?", answer: "Outputs true unless all inputs are true." },
         { question: "Why is hexadecimal used in computing?", answer: "For concise representation of binary data." },
         { question: "What base is binary?", answer: "Base 2." },
         { question: "What are the three primary number systems used in computing?", answer: "Binary, hexadecimal, octal." },
-        { question: "What does ASCII stand for?", answer: "American Standard Code for Information Interchange." },
         { question: "Why is Unicode important?", answer: "It supports global character encoding for various languages." },
-        { question: "What is the bit length of extended ASCII?", answer: "8 bits." },
         { question: "What is Two's Complement used for?", answer: "Representing signed numbers in binary." },
         { question: "How do you find the Two's Complement of a number?", answer: "Invert the binary digits and add 1." },
-        { question: "What was the first microprocessor?", answer: "Intel 4004." },
-        { question: "What were early applications of the Intel 4004?", answer: "Calculators and simple devices." },
+        { question: "What were early applications of the processor?", answer: "Calculators and simple devices." },
         { question: "What does RISC stand for?", answer: "Reduced Instruction Set Computer." },
         { question: "What is the advantage of RISC?", answer: "Simpler, faster, and uses less power." },
         { question: "What does CISC stand for?", answer: "Complex Instruction Set Computer." },
@@ -76,34 +98,65 @@
         { question: "What does ISA define?", answer: "The set of instructions a processor can execute." },
         { question: "Can new instructions be added to a CPU after manufacturing?", answer: "No." },
         { question: "What is an advantage of assembly language?", answer: "It provides low-level control of hardware." },
-        { question: "How does the Marie Machine relate to Von Neumann architecture?", answer: "It models the stored program concept." },
-        { question: "What is cooperative multitasking?", answer: "Tasks voluntarily yield control." },
+        { question: "What is cooperative multitasking?", answer: "Tasks voluntarily yield control to CPU." },
         { question: "What is preemptive multitasking?", answer: "OS decides task scheduling." },
         { question: "What is the purpose of metadata?", answer: "To describe data within files (e.g., author, date)." },
         { question: "What are codecs used for?", answer: "Compression and decompression of multimedia files." },
         { question: "What is TCP/IP?", answer: "Transmission Control Protocol/Internet Protocol." },
-        { question: "Why are packet-switched networks important?", answer: "They allow efficient and reliable data transfer." },
         { question: "What are the key stages in the Waterfall methodology?", answer: "Requirements, design, implementation, testing, maintenance." },
         { question: "What is a key principle of Agile philosophy?", answer: "Iterative development and collaboration." },
         { question: "What is the first step in troubleshooting?", answer: "Eliminate obvious problems." },
-        { question: "Why is simplifying a problem helpful in troubleshooting?", answer: "It isolates the issue for quicker resolution." },
-        { question: "Why are risk assessments important?", answer: "To identify and mitigate potential vulnerabilities." },
         { question: "What ensures data integrity in systems?", answer: "Proper backups and encryption." }
+        { question: "What is an instruction set?", answer: "A set of operations a processor is designed to execute." },
+        { question: "What is the difference between RISC and CISC architectures?", answer: "RISC uses simpler instructions for speed; CISC uses complex instructions for versatility." },
+        { question: "Why are registers important in instruction execution?", answer: "They store data immediately needed by the CPU." },
+        { question: "What is the role of a control unit in a CPU?", answer: "To interpret and execute instructions from the memory." },
+        { question: "Why is opcode important in instructions?", answer: "It specifies the operation to be performed." },
+        { question: "What is the fetch-decode-execute cycle?", answer: "The process the CPU uses to execute instructions." },
+        { question: "Why is cache memory critical in instruction execution?", answer: "It speeds up data access for the CPU." },
+        { question: "What does the term 'instruction latency' refer to?", answer: "The time taken to complete an instruction." },
+        { question: "What does the term 'bus' refer to in computing?", answer: "A communication system that transfers data between components." },
+        { question: "What is the role of PCIe?", answer: "Connects peripherals to the motherboard (eg. GPU, NIC, Bluetooth adapter, Wifi adapter)" },
+        { question: "Why is a clock necessary in a CPU?", answer: "To synchronize operations within the processor." },
+        { question: "What is the difference between DDR3 and DDR4 RAM?", answer: "DDR4 offers higher speed and efficiency than DDR3." },
+        { question: "What is the role of the ALU in a CPU?", answer: "To perform arithmetic and logical operations." },
+        { question: "What is the difference between a hard drive and an SSD?", answer: "SSDs are faster and have no moving parts; hard drives rely on spinning platters." },
+        { question: "What is a kernel in an operating system?", answer: "The core part of the OS that manages resources and hardware." },
+        { question: "What is multithreading?", answer: "Running multiple threads within a single process." },
+        { question: "What is the purpose of file permissions?", answer: "To control access to files for security." },
+        { question: "What does the term 'bit rate' refer to in multimedia?", answer: "The number of bits processed per second in a stream." },
+        { question: "What is the difference between lossy and lossless compression?", answer: "Lossy removes data for smaller files; lossless retains all data." },
+        { question: "Why are development life cycles important in software?", answer: "They provide a structured approach to creating reliable software." },
+        { question: "What is the function of the CPU?", answer: "The CPU (Central Processing Unit) performs calculations and carries out instructions in a computer." },
+        { question: "What is RAM and why is it important?", answer: "RAM (Random Access Memory) temporarily stores data that the CPU needs for running programs, allowing quick access." },
+        { question: "What does the motherboard do?", answer: "The motherboard connects all the components of a computer, including the CPU, RAM, and storage devices, allowing communication between them." },
+        { question: "What is a hard drive?", answer: "A hard drive is a storage device that holds data permanently and is used for saving operating systems, software, and files." },
+        { question: "What is the purpose of the power supply unit (PSU)?", answer: "The PSU converts electrical power from an outlet into a usable form for the computer's internal components." },
+        { question: "What is the GPU responsible for?", answer: "The GPU (Graphics Processing Unit) handles rendering graphics and video, improving performance for tasks like gaming and video editing." },
+        { question: "What does the BIOS do?", answer: "The BIOS (Basic Input/Output System) is firmware that initializes hardware components during boot and provides low-level control over the computer." },
+        { question: "What is an optical drive?", answer: "An optical drive reads and writes data on optical discs, such as CDs, DVDs, and Blu-rays." },
     ];
 
-    let currentIndex = 0;
+    let currentIndex = Math.floor(Math.random() * flashcards.length);
     const questionElement = document.getElementById("question");
     const showAnswerButton = document.getElementById("show-answer");
     const nextButton = document.getElementById("next");
+
+    function loadNewQuestion() {
+        currentIndex = Math.floor(Math.random() * flashcards.length);
+        questionElement.textContent = flashcards[currentIndex].question;
+    }
 
     showAnswerButton.addEventListener("click", () => {
         questionElement.textContent = flashcards[currentIndex].answer;
     });
 
     nextButton.addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % flashcards.length;
-        questionElement.textContent = flashcards[currentIndex].question;
+        loadNewQuestion();
     });
+
+    // Initialize with a random question
+    loadNewQuestion();
 </script>
 
 </body>
