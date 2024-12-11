@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .card {
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            text-align: center;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="flashcard">
+        <p id="question">What are the basic logic gates?</p>
+    </div>
+    <button class="button" id="show-answer">Show Answer</button>
+    <button class="button" id="next">Next Question</button>
+</div>
+
+<script>
+    const flashcards = [
+        { question: "What are the basic logic gates?", answer: "Buffer, NOT, NAND, NOR, XOR, XNOR." },
+        { question: "What is the purpose of a NOT gate?", answer: "It inverts the input signal." },
+        { question: "What is the role of a NAND gate?", answer: "Outputs true unless all inputs are true." },
+        { question: "Why is hexadecimal used in computing?", answer: "For concise representation of binary data." },
+        { question: "What base is binary?", answer: "Base 2." },
+        { question: "What are the three primary number systems used in computing?", answer: "Binary, hexadecimal, octal." },
+        { question: "What does ASCII stand for?", answer: "American Standard Code for Information Interchange." },
+        { question: "Why is Unicode important?", answer: "It supports global character encoding for various languages." },
+        { question: "What is the bit length of extended ASCII?", answer: "8 bits." },
+        { question: "What is Two's Complement used for?", answer: "Representing signed numbers in binary." },
+        { question: "How do you find the Two's Complement of a number?", answer: "Invert the binary digits and add 1." },
+        { question: "What was the first microprocessor?", answer: "Intel 4004." },
+        { question: "What were early applications of the Intel 4004?", answer: "Calculators and simple devices." },
+        { question: "What does RISC stand for?", answer: "Reduced Instruction Set Computer." },
+        { question: "What is the advantage of RISC?", answer: "Simpler, faster, and uses less power." },
+        { question: "What does CISC stand for?", answer: "Complex Instruction Set Computer." },
+        { question: "What are the key components of Von Neumann architecture?", answer: "CPU, memory, input/output systems." },
+        { question: "What is the stored program model?", answer: "Instructions and data are stored in memory." },
+        { question: "What is a register?", answer: "Small, fast storage in the CPU." },
+        { question: "What is the purpose of a register?", answer: "For immediate data access during operations." },
+        { question: "What is volatile memory?", answer: "Memory that loses data when power is off." },
+        { question: "Give an example of non-volatile memory.", answer: "SSD (Solid State Drive)." },
+        { question: "What does WORM stand for in storage?", answer: "Write Once, Read Many." },
+        { question: "What is the advantage of SSDs over HDDs?", answer: "Faster speed and no moving parts." },
+        { question: "What does ISA define?", answer: "The set of instructions a processor can execute." },
+        { question: "Can new instructions be added to a CPU after manufacturing?", answer: "No." },
+        { question: "What is an advantage of assembly language?", answer: "It provides low-level control of hardware." },
+        { question: "How does the Marie Machine relate to Von Neumann architecture?", answer: "It models the stored program concept." },
+        { question: "What is cooperative multitasking?", answer: "Tasks voluntarily yield control." },
+        { question: "What is preemptive multitasking?", answer: "OS decides task scheduling." },
+        { question: "What is the purpose of metadata?", answer: "To describe data within files (e.g., author, date)." },
+        { question: "What are codecs used for?", answer: "Compression and decompression of multimedia files." },
+        { question: "What is TCP/IP?", answer: "Transmission Control Protocol/Internet Protocol." },
+        { question: "Why are packet-switched networks important?", answer: "They allow efficient and reliable data transfer." },
+        { question: "What are the key stages in the Waterfall methodology?", answer: "Requirements, design, implementation, testing, maintenance." },
+        { question: "What is a key principle of Agile philosophy?", answer: "Iterative development and collaboration." },
+        { question: "What is the first step in troubleshooting?", answer: "Eliminate obvious problems." },
+        { question: "Why is simplifying a problem helpful in troubleshooting?", answer: "It isolates the issue for quicker resolution." },
+        { question: "Why are risk assessments important?", answer: "To identify and mitigate potential vulnerabilities." },
+        { question: "What ensures data integrity in systems?", answer: "Proper backups and encryption." }
+    ];
+
+    let currentIndex = 0;
+    const questionElement = document.getElementById("question");
+    const showAnswerButton = document.getElementById("show-answer");
+    const nextButton = document.getElementById("next");
+
+    showAnswerButton.addEventListener("click", () => {
+        questionElement.textContent = flashcards[currentIndex].answer;
+    });
+
+    nextButton.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % flashcards.length;
+        questionElement.textContent = flashcards[currentIndex].question;
+    });
+</script>
+
+</body>
+</html>
