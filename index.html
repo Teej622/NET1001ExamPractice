@@ -27,12 +27,13 @@
             position: relative;
             overflow: hidden;
             animation: fadeIn 0.5s ease;
+            color: #333; /* Change text color inside the card */
         }
         .card p {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: black;
+            color: #333; /* Ensure question text is dark enough */
         }
         .button {
             margin-top: 20px;
@@ -74,7 +75,7 @@
 
 <script>
     const flashcards = [
-       { question: "What are the basic logic gates?", answer: "Buffer, NOT, NAND, NOR, XOR, XNOR." },
+      { question: "What are the basic logic gates?", answer: "Buffer, NOT, NAND, NOR, XOR, XNOR." },
         { question: "What is the purpose of a NOT gate?", answer: "It inverts the input signal." },
         { question: "What is the role of a NAND gate?", answer: "Outputs true unless all inputs are true." },
         { question: "Why is hexadecimal used in computing?", answer: "For concise representation of binary data." },
@@ -137,18 +138,27 @@
         { question: "What is an optical drive?", answer: "An optical drive reads and writes data on optical discs, such as CDs, DVDs, and Blu-rays." },
     ];
 
-    let currentIndex = Math.floor(Math.random() * flashcards.length);
     const questionElement = document.getElementById("question");
     const showAnswerButton = document.getElementById("show-answer");
     const nextButton = document.getElementById("next");
 
+    let currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick the first question
+    let showAnswer = false;
+
     function loadNewQuestion() {
-        currentIndex = Math.floor(Math.random() * flashcards.length);
+        currentIndex = Math.floor(Math.random() * flashcards.length); // Randomly pick a new question
         questionElement.textContent = flashcards[currentIndex].question;
+        showAnswer = false;
     }
 
     showAnswerButton.addEventListener("click", () => {
-        questionElement.textContent = flashcards[currentIndex].answer;
+        if (!showAnswer) {
+            questionElement.textContent = flashcards[currentIndex].answer;
+            showAnswer = true;
+        } else {
+            questionElement.textContent = flashcards[currentIndex].question;
+            showAnswer = false;
+        }
     });
 
     nextButton.addEventListener("click", () => {
