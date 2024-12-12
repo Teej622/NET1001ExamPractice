@@ -43,7 +43,7 @@
         }
 
         .button {
-            margin-top: 20px;
+            margin: 10px;
             padding: 10px 20px;
             background-color: #121212;
             border: 2px solid #00ffcc;
@@ -57,6 +57,17 @@
         .button:hover {
             background-color: #00ffcc;
             color: #121212;
+        }
+
+        .red-button {
+            background-color: transparent;
+            border: 2px solid red;
+            color: red;
+        }
+
+        .red-button:hover {
+            background-color: rgba(255, 0, 0, 0.1);
+            color: darkred;
         }
 
         .card {
@@ -79,6 +90,19 @@
             justify-content: center;
             height: 100%;
         }
+
+        .counter {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #00ffcc;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -87,7 +111,7 @@
     <div class="home-page visible" id="home">
         <h1>NET1001 Exam Flashcards</h1>
         <p>Thanks ChatGPT</p>
-        <p>Now with 100 total cards!</p>
+        <p>Good Luck!!!</p>
         <button class="button" id="start-quiz">Start</button>
     </div>
 
@@ -96,14 +120,17 @@
         <div class="card">
             <p id="question">What are the basic logic gates?</p>
         </div>
-        <button class="button" id="show-answer">Show Answer</button>
-        <button class="button" id="next">Next Question</button>
-        <button class="button" id="remove-card">Remove Card</button>
+        <div class="button-container">
+            <button class="button" id="show-answer">Show Answer</button>
+            <button class="button" id="next">Next Question</button>
+            <button class="button red-button" id="remove-card">Remove Card</button>
+        </div>
+        <div class="counter" id="counter">Cards Remaining: 100</div>
     </div>
 
     <script>
         const flashcards = [
-      { question: "What are the basic logic gates?", answer: "AND, OR, Buffer, NOT, NAND, NOR, XOR, XNOR." },
+            { question: "What are the basic logic gates?", answer: "AND, OR, Buffer, NOT, NAND, NOR, XOR, XNOR." },
         { question: "What is the purpose of a NOT gate?", answer: "It inverts the input signal." },
         { question: "What is the role of a NAND gate?", answer: "Outputs true unless all inputs are true." },
         { question: "Why is hexadecimal used in computing?", answer: "For concise representation of binary data." },
@@ -153,7 +180,6 @@
         { question: "What is a kernel in an operating system?", answer: "The core part of the OS that manages resources and hardware." },
         { question: "What is multithreading?", answer: "Running multiple threads within a single process." },
         { question: "What is the purpose of file permissions?", answer: "To control access to files for security." },
-        { question: "What does the term 'bit rate' refer to in multimedia?", answer: "The number of bits processed per second in a stream." },
         { question: "What is the difference between lossy and lossless compression?", answer: "Lossy removes data for smaller files; lossless retains all data." },
         { question: "Why are development life cycles important in software?", answer: "They provide a structured approach to creating reliable software." },
         { question: "What is the function of the CPU?", answer: "The CPU (Central Processing Unit) performs calculations and carries out instructions in a computer." },
@@ -212,20 +238,26 @@
         const showAnswerButton = document.getElementById("show-answer");
         const nextButton = document.getElementById("next");
         const removeCardButton = document.getElementById("remove-card");
+        const counterElement = document.getElementById("counter");
 
         let currentIndex = Math.floor(Math.random() * flashcards.length);
         let showAnswer = false;
+        let remainingCards = flashcards.length;
+
+        function updateCounter() {
+            counterElement.textContent = `Cards Remaining: ${remainingCards}`;
+        }
 
         function loadNewQuestion() {
-            // If there are no flashcards left, show a message and return
             if (flashcards.length === 0) {
                 questionElement.textContent = "No more flashcards left!";
                 showAnswerButton.style.display = 'none';
                 nextButton.style.display = 'none';
                 removeCardButton.style.display = 'none';
+                counterElement.textContent = "All cards removed!";
                 return;
             }
-            
+
             currentIndex = Math.floor(Math.random() * flashcards.length);
             questionElement.textContent = flashcards[currentIndex].question;
             showAnswer = false;
@@ -252,13 +284,16 @@
 
         nextButton.addEventListener("click", loadNewQuestion);
 
-        // Remove the current flashcard from the list
         removeCardButton.addEventListener("click", () => {
-            flashcards.splice(currentIndex, 1);
-            loadNewQuestion();
+            if (flashcards.length > 0) {
+                flashcards.splice(currentIndex, 1);
+                remainingCards--;
+                updateCounter();
+                loadNewQuestion();
+            }
         });
 
-        loadNewQuestion();
+        updateCounter();
     </script>
 </body>
 </html>
